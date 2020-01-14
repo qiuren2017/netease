@@ -13,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -175,9 +176,13 @@ public class ImTeamComponentImpl implements ImTeamComponent {
         JSONObject param = new JSONObject();
         param.put("accid", accid);
         JSONObject tdResult = neteaseUtil.doRequest(NeteaseApiEnum.team_joinTeams.getValue(), param);
-        if (tdResult.getInteger("code").equals(NeteaseCode.SUCC.getCode())) {
-            List<JoinTeamsResponse> list = tdResult.getJSONArray("infos").toJavaList(JoinTeamsResponse.class);
-            return list;
+        Integer code = tdResult.getInteger("code");
+        if (code.equals(NeteaseCode.SUCC.getCode())) {
+            if (code > 0) {
+                List<JoinTeamsResponse> list = tdResult.getJSONArray("infos").toJavaList(JoinTeamsResponse.class);
+                return list;
+            }
+            return new ArrayList<JoinTeamsResponse>();
         }
         log.warn("网易云获取某用户所加入的群信息失败，tdResult={},参数={}", tdResult, param);
         throw new BizException("joinTeams.error", "网易云获取某用户所加入的群信息失败");
