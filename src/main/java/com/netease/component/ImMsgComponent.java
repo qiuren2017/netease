@@ -6,7 +6,7 @@ import javax.mail.Multipart;
 import java.util.List;
 
 /**
- * 发送短信
+ * 发送消息、通知
  */
 public interface ImMsgComponent {
     /**
