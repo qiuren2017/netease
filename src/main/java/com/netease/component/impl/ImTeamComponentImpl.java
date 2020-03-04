@@ -139,7 +139,7 @@ public class ImTeamComponentImpl implements ImTeamComponent {
     @Override
     public void changeOwner(String tid, String owner, String newowner, Integer leave) {
         JSONObject param = new JSONObject();
-        param.put("tids", tid);
+        param.put("tid", tid);
         param.put("owner", owner);
         param.put("newowner", newowner);
         param.put("leave", leave);
