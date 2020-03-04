@@ -42,6 +42,9 @@ public class ImTeamComponentImpl implements ImTeamComponent {
 
     @Override
     public CreateTeamResponse addToTeam(AddToTeamParam dto) {
+        if (StringUtils.isBlank(dto.getAttach())) {
+            dto.setAttach("拉人");
+        }
         JSONObject param = JsonUtils.object2JsonObject(dto);
         JSONObject tdResult = neteaseUtil.doRequest(NeteaseApiEnum.team_add.getValue(), param);
         if (tdResult.getInteger("code").equals(NeteaseCode.SUCC.getCode())) {
@@ -60,6 +63,9 @@ public class ImTeamComponentImpl implements ImTeamComponent {
 
     @Override
     public void kick(KickParam dto) {
+        if (StringUtils.isBlank(dto.getAttach())) {
+            dto.setAttach("踢人");
+        }
         JSONObject param = JsonUtils.object2JsonObject(dto);
         JSONObject tdResult = neteaseUtil.doRequest(NeteaseApiEnum.team_kick.getValue(), param);
         if (tdResult.getInteger("code").equals(NeteaseCode.SUCC.getCode())) {
