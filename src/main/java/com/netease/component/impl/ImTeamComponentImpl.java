@@ -46,7 +46,11 @@ public class ImTeamComponentImpl implements ImTeamComponent {
         JSONObject tdResult = neteaseUtil.doRequest(NeteaseApiEnum.team_add.getValue(), param);
         if (tdResult.getInteger("code").equals(NeteaseCode.SUCC.getCode())) {
             String tid = tdResult.getString("tid");
-            List<String> faccid = tdResult.getJSONObject("faccid").getJSONArray("accid").toJavaList(String.class);
+            List<String> faccid = new ArrayList<>();
+            JSONObject faccidObj = tdResult.getJSONObject("faccid");
+            if (faccidObj != null) {
+                faccid = faccidObj.getJSONArray("accid").toJavaList(String.class);
+            }
             CreateTeamResponse teamResponse = new CreateTeamResponse(tid, faccid);
             return teamResponse;
         }
