@@ -1,7 +1,9 @@
 package com.netease;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONException;
 import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.serializer.SerializerFeature;
 
 import javax.xml.bind.JAXBException;
 import java.util.List;
@@ -52,7 +54,20 @@ public class JsonUtils {
      * @throws JSONException
      */
     public static JSONObject object2JsonObject(Object object) throws JSONException {
-        JSONObject jsonObject = (JSONObject) JSONObject.toJSON(object);
+//        JSONObject jsonObject = (JSONObject) JSONObject.toJSON(object);
+        JSONObject jsonObject = JSONObject.parseObject(JSON.toJSONString(object));
+        return jsonObject;
+    }
+
+    /**
+     * Object 转化为 JSONObject ,为null的key转成null
+     *
+     * @param object
+     * @return
+     * @throws JSONException
+     */
+    public static JSONObject object2JsonObjectWithNull(Object object) throws JSONException {
+        JSONObject jsonObject = JSONObject.parseObject(JSON.toJSONString(object, SerializerFeature.WriteMapNullValue));
         return jsonObject;
     }
 
