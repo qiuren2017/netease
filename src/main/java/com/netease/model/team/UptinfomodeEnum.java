@@ -3,17 +3,16 @@ package com.netease.model.team;
 import com.common.util.IGlossary;
 
 /**
- * 群建好后，sdk操作时
+ * 谁可以修改群资料
  */
-public enum JoinmodeTypeEnum implements IGlossary {
-    NOT_VERIFY("不用验证", 0),
-    VERIFY("需要验证", 1),
-    FORBID("不允许任何人加入", 2);
+public enum UptinfomodeEnum implements IGlossary {
+    ADMIN("管理员(默认)", 0),
+    EVERYONE("所有人", 1);
 
     private String name;
     private Integer value;
 
-    JoinmodeTypeEnum(String name, Integer value) {
+    UptinfomodeEnum(String name, Integer value) {
         this.name = name;
         this.value = value;
     }
