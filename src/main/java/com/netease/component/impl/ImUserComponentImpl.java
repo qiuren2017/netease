@@ -17,6 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import java.util.Arrays;
 import java.util.List;
 
 @Slf4j
@@ -81,7 +82,7 @@ public class ImUserComponentImpl implements ImUserComponent {
             throw new BizException("im.getUinfos.error", "一次最多查询200条");
         }
         JSONObject param = new JSONObject();
-        param.put("accids", accids);
+        param.put("accids", Arrays.asList(accids));
         JSONObject tdResult = neteaseUtil.doRequest(NeteaseApiEnum.user_getUinfos.getValue(), param);
         if (tdResult.getInteger("code").equals(NeteaseCode.SUCC.getCode())) {
             List<ImUserDto> list = tdResult.getJSONArray("uinfos").toJavaList(ImUserDto.class);
