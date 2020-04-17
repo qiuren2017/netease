@@ -10,7 +10,6 @@ import com.netease.dto.msg.*;
 import com.netease.model.NeteaseApiEnum;
 import com.netease.model.NeteaseCode;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -23,7 +22,6 @@ public class ImMsgComponentImpl implements ImMsgComponent {
     @Resource
     private NeteaseUtil neteaseUtil;
 
-    @Async
     @Override
     public SendMsgResponse sendMsg(SendMsgParam dto) {
         JSONObject param = JsonUtils.object2JsonObject(dto);
@@ -36,7 +34,6 @@ public class ImMsgComponentImpl implements ImMsgComponent {
         throw new BizException("sendMsg.error", "网易云发送普通消息失败");
     }
 
-    @Async
     @Override
     public SendBatchMsgResponse sendBatchMsg(SendBatchMsgParam dto) {
         JSONObject param = JsonUtils.object2JsonObject(dto);
@@ -49,7 +46,6 @@ public class ImMsgComponentImpl implements ImMsgComponent {
         throw new BizException("sendBatchMsg.error", "网易云批量发送点对点普通消息失败");
     }
 
-    @Async
     @Override
     public void sendAttachMsg(SendAttachMsgParam dto) {
         JSONObject param = JsonUtils.object2JsonObject(dto);
@@ -61,7 +57,6 @@ public class ImMsgComponentImpl implements ImMsgComponent {
         throw new BizException("sendAttachMsg.error", "网易云发送自定义系统通知失败");
     }
 
-    @Async
     @Override
     public String sendBatchAttachMsg(SendBatchAttachMsgParam dto) {
         JSONObject param = JsonUtils.object2JsonObject(dto);
@@ -143,7 +138,6 @@ public class ImMsgComponentImpl implements ImMsgComponent {
         throw new BizException("jrecall.error", "网易云消息撤回失败");
     }
 
-    @Async
     @Override
     public BroadcastMsgResponse broadcastMsg(String body, String from, Boolean isOffline, Integer ttl, List<String> targetOs) {
         JSONObject param = new JSONObject();
