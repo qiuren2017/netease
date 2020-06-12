@@ -14,7 +14,6 @@ import com.netease.dto.friend.UserFriendDto;
 import com.netease.dto.user.CreateUserResponse;
 import com.netease.dto.user.ImUserDto;
 import com.netease.model.NeteaseApiEnum;
-import com.netease.model.NeteaseCode;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
@@ -31,7 +30,7 @@ public class ImUserComponentImpl implements ImUserComponent {
     public CreateUserResponse createUser(ImUserDto dto) {
         JSONObject param = JsonUtils.object2JsonObject(dto);
         JSONObject tdResult = neteaseUtil.doRequest(NeteaseApiEnum.user_create.getValue(), param);
-        if (tdResult.getString("code").equals(NeteaseCode.SUCC.getCode())) {
+        if (tdResult.getString("code").equals("200")) {
             CreateUserResponse userResponse = JsonUtils.jsonString2Object(tdResult.getJSONObject("info").toJSONString(), CreateUserResponse.class);
             return userResponse;
         }
@@ -45,7 +44,7 @@ public class ImUserComponentImpl implements ImUserComponent {
         param.put("accid", accid);
         param.put("token", token);
         JSONObject tdResult = neteaseUtil.doRequest(NeteaseApiEnum.user_update.getValue(), param);
-        if (tdResult.getString("code").equals(NeteaseCode.SUCC.getCode())) {
+        if (tdResult.getString("code").equals("200")) {
             return;
         }
         log.warn("网易云更新网易云通信token失败，tdResult={},参数={}", tdResult, param);
@@ -57,7 +56,7 @@ public class ImUserComponentImpl implements ImUserComponent {
         JSONObject param = new JSONObject();
         param.put("accid", accid);
         JSONObject tdResult = neteaseUtil.doRequest(NeteaseApiEnum.user_refreshToken.getValue(), param);
-        if (tdResult.getString("code").equals(NeteaseCode.SUCC.getCode())) {
+        if (tdResult.getString("code").equals("200")) {
             CreateUserResponse userResponse = JsonUtils.jsonString2Object(tdResult.getJSONObject("info").toJSONString(), CreateUserResponse.class);
             return userResponse;
         }
@@ -69,7 +68,7 @@ public class ImUserComponentImpl implements ImUserComponent {
     public void updateUinfo(ImUserDto dto) {
         JSONObject param = JsonUtils.object2JsonObject(dto);
         JSONObject tdResult = neteaseUtil.doRequest(NeteaseApiEnum.user_updateUinfo.getValue(), param);
-        if (tdResult.getString("code").equals(NeteaseCode.SUCC.getCode())) {
+        if (tdResult.getString("code").equals("200")) {
             return;
         }
         log.warn("网易云更新个人名片失败，tdResult={},参数={}", tdResult, param);
@@ -85,7 +84,7 @@ public class ImUserComponentImpl implements ImUserComponent {
         JSONObject param = new JSONObject();
         param.put("accids", JSONArray.parseArray(JSON.toJSONString(accids)));
         JSONObject tdResult = neteaseUtil.doRequest(NeteaseApiEnum.user_getUinfos.getValue(), param);
-        if (tdResult.getString("code").equals(NeteaseCode.SUCC.getCode())) {
+        if (tdResult.getString("code").equals("200")) {
             List<ImUserDto> list = tdResult.getJSONArray("uinfos").toJavaList(ImUserDto.class);
             return list;
         }
@@ -99,7 +98,7 @@ public class ImUserComponentImpl implements ImUserComponent {
         param.put("accid", accid);
         param.put("needkick", needkick);
         JSONObject tdResult = neteaseUtil.doRequest(NeteaseApiEnum.user_block.getValue(), param);
-        if (tdResult.getString("code").equals(NeteaseCode.SUCC.getCode())) {
+        if (tdResult.getString("code").equals("200")) {
             return;
         }
         log.warn("网易云封禁网易云通信ID失败，tdResult={},参数={}", tdResult, param);
@@ -111,7 +110,7 @@ public class ImUserComponentImpl implements ImUserComponent {
         JSONObject param = new JSONObject();
         param.put("accid", accid);
         JSONObject tdResult = neteaseUtil.doRequest(NeteaseApiEnum.user_unblock.getValue(), param);
-        if (tdResult.getString("code").equals(NeteaseCode.SUCC.getCode())) {
+        if (tdResult.getString("code").equals("200")) {
             return;
         }
         log.warn("网易云解禁网易云通信ID失败，tdResult={},参数={}", tdResult, param);
@@ -124,7 +123,7 @@ public class ImUserComponentImpl implements ImUserComponent {
         param.put("accid", accid);
         param.put("donnopOpen", donnopOpen);
         JSONObject tdResult = neteaseUtil.doRequest(NeteaseApiEnum.user_setDonnop.getValue(), param);
-        if (tdResult.getString("code").equals(NeteaseCode.SUCC.getCode())) {
+        if (tdResult.getString("code").equals("200")) {
             return;
         }
         log.warn("网易云设置桌面端在线时，移动端是否需要推送失败，tdResult={},参数={}", tdResult, param);
@@ -137,7 +136,7 @@ public class ImUserComponentImpl implements ImUserComponent {
         param.put("accid", accid);
         param.put("mute", mute);
         JSONObject tdResult = neteaseUtil.doRequest(NeteaseApiEnum.user_mute.getValue(), param);
-        if (tdResult.getString("code").equals(NeteaseCode.SUCC.getCode())) {
+        if (tdResult.getString("code").equals("200")) {
             return;
         }
         log.warn("网易云账号全局禁言失败，tdResult={},参数={}", tdResult, param);
@@ -150,7 +149,7 @@ public class ImUserComponentImpl implements ImUserComponent {
         param.put("accid", accid);
         param.put("mute", mute);
         JSONObject tdResult = neteaseUtil.doRequest(NeteaseApiEnum.user_muteAv.getValue(), param);
-        if (tdResult.getString("code").equals(NeteaseCode.SUCC.getCode())) {
+        if (tdResult.getString("code").equals("200")) {
             return;
         }
         log.warn("网易云账号全局禁用音视频失败，tdResult={},参数={}", tdResult, param);
@@ -161,7 +160,7 @@ public class ImUserComponentImpl implements ImUserComponent {
     public void friendAdd(AddFriendParam dto) {
         JSONObject param = JsonUtils.object2JsonObject(dto);
         JSONObject tdResult = neteaseUtil.doRequest(NeteaseApiEnum.friend_add.getValue(), param);
-        if (tdResult.getString("code").equals(NeteaseCode.SUCC.getCode())) {
+        if (tdResult.getString("code").equals("200")) {
             return;
         }
         log.warn("网易云加好友失败，tdResult={},参数={}", tdResult, param);
@@ -172,7 +171,7 @@ public class ImUserComponentImpl implements ImUserComponent {
     public void friendUpdate(UpdateFriendParam dto) {
         JSONObject param = JsonUtils.object2JsonObject(dto);
         JSONObject tdResult = neteaseUtil.doRequest(NeteaseApiEnum.friend_update.getValue(), param);
-        if (tdResult.getString("code").equals(NeteaseCode.SUCC.getCode())) {
+        if (tdResult.getString("code").equals("200")) {
             return;
         }
         log.warn("网易云更新好友相关信息失败，tdResult={},参数={}", tdResult, param);
@@ -186,7 +185,7 @@ public class ImUserComponentImpl implements ImUserComponent {
         param.put("faccid", faccid);
         param.put("isDeleteAlias", isDeleteAlias);
         JSONObject tdResult = neteaseUtil.doRequest(NeteaseApiEnum.friend_delete.getValue(), param);
-        if (tdResult.getString("code").equals(NeteaseCode.SUCC.getCode())) {
+        if (tdResult.getString("code").equals("200")) {
             return;
         }
         log.warn("网易云删除好友失败，tdResult={},参数={}", tdResult, param);
@@ -199,7 +198,7 @@ public class ImUserComponentImpl implements ImUserComponent {
         param.put("accid", accid);
         param.put("updatetime", updatetime);
         JSONObject tdResult = neteaseUtil.doRequest(NeteaseApiEnum.friend_get.getValue(), param);
-        if (tdResult.getString("code").equals(NeteaseCode.SUCC.getCode())) {
+        if (tdResult.getString("code").equals("200")) {
             List<UserFriendDto> list = tdResult.getJSONArray("friends").toJavaList(UserFriendDto.class);
             return list;
         }
@@ -215,7 +214,7 @@ public class ImUserComponentImpl implements ImUserComponent {
         param.put("relationType", relationType);
         param.put("value", value);
         JSONObject tdResult = neteaseUtil.doRequest(NeteaseApiEnum.user_setSpecialRelation.getValue(), param);
-        if (tdResult.getString("code").equals(NeteaseCode.SUCC.getCode())) {
+        if (tdResult.getString("code").equals("200")) {
             return;
         }
         log.warn("网易云设置黑名单/静音失败，tdResult={},参数={}", tdResult, param);
@@ -227,7 +226,7 @@ public class ImUserComponentImpl implements ImUserComponent {
         JSONObject param = new JSONObject();
         param.put("accid", accid);
         JSONObject tdResult = neteaseUtil.doRequest(NeteaseApiEnum.user_listBlackAndMuteList.getValue(), param);
-        if (tdResult.getString("code").equals(NeteaseCode.SUCC.getCode())) {
+        if (tdResult.getString("code").equals("200")) {
             List<String> mutelist = tdResult.getJSONArray("mutelist").toJavaList(String.class);
             List<String> blacklist = tdResult.getJSONArray("blacklist").toJavaList(String.class);
             BlackAndMute blackAndMute = new BlackAndMute(mutelist, blacklist);
