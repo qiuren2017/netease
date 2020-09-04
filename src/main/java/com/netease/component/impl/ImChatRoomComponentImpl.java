@@ -87,6 +87,9 @@ public class ImChatRoomComponentImpl implements ImChatRoomComponent {
         if (tdResult.getInteger("code").equals(NeteaseCode.SUCC.getCode())) {
             CreateChatRoomResponse chatroom = JsonUtils.jsonString2Object(tdResult.getJSONObject("desc").toJSONString(), CreateChatRoomResponse.class);
             return chatroom;
+        } else if (tdResult.getInteger("code").equals(417)) {
+            //417 - duplicated operation
+            return null;
         }
         log.warn("网易云修改聊天室开/关闭状态失败，tdResult={},参数={}", tdResult, param);
         throw new BizException("update.error", "网易云修改聊天室开/关闭状态失败");
@@ -121,7 +124,7 @@ public class ImChatRoomComponentImpl implements ImChatRoomComponent {
         JSONObject param = JsonUtils.object2JsonObject(dto);
         JSONObject tdResult = neteaseUtil.doRequest(NeteaseApiEnum.chatroom_sendMsg.getValue(), param);
         if (tdResult.getInteger("code").equals(NeteaseCode.SUCC.getCode())) {
-            SendMsgResponse msgResponse = JsonUtils.jsonString2Object(tdResult.getJSONObject("desc").toJSONString(),SendMsgResponse.class);
+            SendMsgResponse msgResponse = JsonUtils.jsonString2Object(tdResult.getJSONObject("desc").toJSONString(), SendMsgResponse.class);
             return msgResponse;
         }
         log.warn("网易云发送聊天室消息失败，tdResult={},参数={}", tdResult, param);
@@ -156,7 +159,7 @@ public class ImChatRoomComponentImpl implements ImChatRoomComponent {
 
     @Override
     public Long temporaryMute(TemporaryMuteParam dto) {
-        JSONObject param =JsonUtils.object2JsonObject(dto);
+        JSONObject param = JsonUtils.object2JsonObject(dto);
         JSONObject tdResult = neteaseUtil.doRequest(NeteaseApiEnum.chatroom_temporaryMute.getValue(), param);
         if (tdResult.getInteger("code").equals(NeteaseCode.SUCC.getCode())) {
             Long muteDuration = tdResult.getJSONObject("desc").getLong("muteDuration");
@@ -168,7 +171,7 @@ public class ImChatRoomComponentImpl implements ImChatRoomComponent {
 
     @Override
     public void queueOffer(QueueOfferParam dto) {
-        JSONObject param =JsonUtils.object2JsonObject(dto);
+        JSONObject param = JsonUtils.object2JsonObject(dto);
         JSONObject tdResult = neteaseUtil.doRequest(NeteaseApiEnum.chatroom_queueOffer.getValue(), param);
         if (tdResult.getInteger("code").equals(NeteaseCode.SUCC.getCode())) {
             return;
@@ -180,13 +183,13 @@ public class ImChatRoomComponentImpl implements ImChatRoomComponent {
     @Override
     public QueuePollResponse queuePoll(String roomid, String key) {
         JSONObject param = new JSONObject();
-        param.put("roomid",roomid);
-        if(StringUtils.isNotBlank(key)){
-            param.put("key",key);
+        param.put("roomid", roomid);
+        if (StringUtils.isNotBlank(key)) {
+            param.put("key", key);
         }
         JSONObject tdResult = neteaseUtil.doRequest(NeteaseApiEnum.chatroom_queuePoll.getValue(), param);
         if (tdResult.getInteger("code").equals(NeteaseCode.SUCC.getCode())) {
-            QueuePollResponse response = JsonUtils.jsonString2Object(tdResult.getJSONObject("desc").toJSONString(),QueuePollResponse.class);
+            QueuePollResponse response = JsonUtils.jsonString2Object(tdResult.getJSONObject("desc").toJSONString(), QueuePollResponse.class);
             return response;
         }
         log.warn("网易云从队列中取出元素失败，tdResult={},参数={}", tdResult, param);
@@ -196,7 +199,7 @@ public class ImChatRoomComponentImpl implements ImChatRoomComponent {
     @Override
     public List<QueuePollResponse> queueList(String roomid) {
         JSONObject param = new JSONObject();
-        param.put("roomid",roomid);
+        param.put("roomid", roomid);
         JSONObject tdResult = neteaseUtil.doRequest(NeteaseApiEnum.chatroom_queueList.getValue(), param);
         if (tdResult.getInteger("code").equals(NeteaseCode.SUCC.getCode())) {
             List<QueuePollResponse> responses = tdResult.getJSONObject("desc").getJSONArray("list").toJavaList(QueuePollResponse.class);
@@ -209,7 +212,7 @@ public class ImChatRoomComponentImpl implements ImChatRoomComponent {
     @Override
     public void queueDrop(String roomid) {
         JSONObject param = new JSONObject();
-        param.put("roomid",roomid);
+        param.put("roomid", roomid);
         JSONObject tdResult = neteaseUtil.doRequest(NeteaseApiEnum.chatroom_queueDrop.getValue(), param);
         if (tdResult.getInteger("code").equals(NeteaseCode.SUCC.getCode())) {
             return;
@@ -221,8 +224,8 @@ public class ImChatRoomComponentImpl implements ImChatRoomComponent {
     @Override
     public void queueInit(String roomid, Integer sizeLimit) {
         JSONObject param = new JSONObject();
-        param.put("roomid",roomid);
-        param.put("sizeLimit",sizeLimit);
+        param.put("roomid", roomid);
+        param.put("sizeLimit", sizeLimit);
         JSONObject tdResult = neteaseUtil.doRequest(NeteaseApiEnum.chatroom_queueInit.getValue(), param);
         if (tdResult.getInteger("code").equals(NeteaseCode.SUCC.getCode())) {
             return;
@@ -245,17 +248,17 @@ public class ImChatRoomComponentImpl implements ImChatRoomComponent {
     @Override
     public List<TopnResponse> topn(Integer topn, Long timestamp, String period, String orderby) {
         JSONObject param = new JSONObject();
-        if(topn!=null){
-            param.put("topn",topn);
+        if (topn != null) {
+            param.put("topn", topn);
         }
-        if(timestamp!=null){
-            param.put("timestamp",timestamp);
+        if (timestamp != null) {
+            param.put("timestamp", timestamp);
         }
-        if(StringUtils.isNotBlank(period)){
-            param.put("period",period);
+        if (StringUtils.isNotBlank(period)) {
+            param.put("period", period);
         }
-        if(StringUtils.isNotBlank(orderby)){
-            param.put("orderby",orderby);
+        if (StringUtils.isNotBlank(orderby)) {
+            param.put("orderby", orderby);
         }
         JSONObject tdResult = neteaseUtil.doRequest(NeteaseApiEnum.chatroom_topn.getValue(), param);
         if (tdResult.getInteger("code").equals(NeteaseCode.SUCC.getCode())) {
@@ -269,10 +272,10 @@ public class ImChatRoomComponentImpl implements ImChatRoomComponent {
     @Override
     public List<MembersResponse> membersByPage(String roomid, Integer type, Long endtime, Integer limit) {
         JSONObject param = new JSONObject();
-        param.put("roomid",roomid);
-        param.put("type",type);
-        param.put("endtime",endtime);
-        param.put("limit",limit);
+        param.put("roomid", roomid);
+        param.put("type", type);
+        param.put("endtime", endtime);
+        param.put("limit", limit);
         JSONObject tdResult = neteaseUtil.doRequest(NeteaseApiEnum.chatroom_membersByPage.getValue(), param);
         if (tdResult.getInteger("code").equals(NeteaseCode.SUCC.getCode())) {
             List<MembersResponse> list = tdResult.getJSONObject("desc").getJSONArray("data").toJavaList(MembersResponse.class);
@@ -285,7 +288,7 @@ public class ImChatRoomComponentImpl implements ImChatRoomComponent {
     @Override
     public List<MembersResponse> queryMembers(String roomid, String... accids) {
         JSONObject param = new JSONObject();
-        param.put("roomid",roomid);
+        param.put("roomid", roomid);
         param.put("accids", Arrays.asList(accids));
         JSONObject tdResult = neteaseUtil.doRequest(NeteaseApiEnum.chatroom_queryMembers.getValue(), param);
         if (tdResult.getInteger("code").equals(NeteaseCode.SUCC.getCode())) {
@@ -322,7 +325,7 @@ public class ImChatRoomComponentImpl implements ImChatRoomComponent {
     @Override
     public List<String> queryUserRoomIds(String creator) {
         JSONObject param = new JSONObject();
-        param.put("creator",creator);
+        param.put("creator", creator);
         JSONObject tdResult = neteaseUtil.doRequest(NeteaseApiEnum.chatroom_queryUserRoomIds.getValue(), param);
         if (tdResult.getInteger("code").equals(NeteaseCode.SUCC.getCode())) {
             List<String> list = tdResult.getJSONObject("desc").getJSONArray("roomids").toJavaList(String.class);
@@ -335,8 +338,8 @@ public class ImChatRoomComponentImpl implements ImChatRoomComponent {
     @Override
     public void updateInOutNotification(String roomid, Boolean close) {
         JSONObject param = new JSONObject();
-        param.put("roomid",roomid);
-        param.put("close",close);
+        param.put("roomid", roomid);
+        param.put("close", close);
         JSONObject tdResult = neteaseUtil.doRequest(NeteaseApiEnum.chatroom_updateInOutNotification.getValue(), param);
         if (tdResult.getInteger("code").equals(NeteaseCode.SUCC.getCode())) {
             return;
