@@ -1,5 +1,7 @@
 package com.netease.component.impl;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.common.exception.BizException;
 import com.common.util.StringUtils;
@@ -162,7 +164,7 @@ public class ImTeamComponentImpl implements ImTeamComponent {
         JSONObject param = new JSONObject();
         param.put("tid", tid);
         param.put("owner", owner);
-        param.put("members", members);
+        param.put("members", JSONArray.parseArray(JSON.toJSONString(members)));
         JSONObject tdResult = neteaseUtil.doRequest(NeteaseApiEnum.team_addManager.getValue(), param);
         if (tdResult.getInteger("code").equals(NeteaseCode.SUCC.getCode())) {
             return;
@@ -176,7 +178,7 @@ public class ImTeamComponentImpl implements ImTeamComponent {
         JSONObject param = new JSONObject();
         param.put("tid", tid);
         param.put("owner", owner);
-        param.put("members", members);
+        param.put("members", JSONArray.parseArray(JSON.toJSONString(members)));
         JSONObject tdResult = neteaseUtil.doRequest(NeteaseApiEnum.team_removeManager.getValue(), param);
         if (tdResult.getInteger("code").equals(NeteaseCode.SUCC.getCode())) {
             return;
