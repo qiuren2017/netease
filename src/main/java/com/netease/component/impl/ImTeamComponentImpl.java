@@ -160,7 +160,7 @@ public class ImTeamComponentImpl implements ImTeamComponent {
     @Override
     public void addManager(String tid, String owner, List<String> members) {
         JSONObject param = new JSONObject();
-        param.put("tids", tid);
+        param.put("tid", tid);
         param.put("owner", owner);
         param.put("members", members);
         JSONObject tdResult = neteaseUtil.doRequest(NeteaseApiEnum.team_addManager.getValue(), param);
@@ -174,7 +174,7 @@ public class ImTeamComponentImpl implements ImTeamComponent {
     @Override
     public void removeManager(String tid, String owner, List<String> members) {
         JSONObject param = new JSONObject();
-        param.put("tids", tid);
+        param.put("tid", tid);
         param.put("owner", owner);
         param.put("members", members);
         JSONObject tdResult = neteaseUtil.doRequest(NeteaseApiEnum.team_removeManager.getValue(), param);
