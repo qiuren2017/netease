@@ -13,7 +13,7 @@ import java.util.List;
 public class KickParam implements Serializable {
     @ApiModelProperty(value = "群唯一标识",required = true)
     private String tid;
-    @ApiModelProperty(value = "群主的accid",required = true)
+    @ApiModelProperty(value = "管理员的accid，用户帐号",required = true)
     private String owner;
     @ApiModelProperty(value = "被移除人的accid，用户账号")
     private String member;
